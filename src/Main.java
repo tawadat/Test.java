@@ -1,56 +1,66 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Test {
+public class Main {
     public static void main(String[] args) {
         int n;
         int m;
         int s;
         int count = 0;
-        int i = 0;
-        int a1, b1;
-        System.out.println("enter the values n, m, s separated by a space");
+
+        System.out.println("Ввод: ");
         Scanner scan = new Scanner(System.in);
         String str = scan.nextLine();
         n = Integer.parseInt(str.split(" ")[0]);
         m = Integer.parseInt(str.split(" ")[1]);
         s = Integer.parseInt(str.split(" ")[2]);
 
-        count = check(n, m);
-        int a[] = new int[n];  // массив зарплат для первой стопки (сколько резюме, столько и элементов массива)
-        int b[] = new int[m];  // массив зарплат для второй стопки (сколько резюме, столько и элементов массива)
-
-        do {
+        count = setCounter(n, m);
+        int a[] = new int[n];
+        int b[] = new int[m];
+        int a1 = 0;
+        int b1 = 0;
+        for (int i = 0; i < count; i++) {
             String z = scan.nextLine();
-            a1 = Integer.parseInt(z.split(" ")[0]);
-            b1 = Integer.parseInt(z.split(" ")[1]);
-            a[i] = a1;
-            b[i] = b1;
-            i++;
+            try {
+                a1 = Integer.parseInt(z.split(" ")[0]);
+            } catch (NumberFormatException e) {
+            }
 
-        } while (i < count);
+            try {
+                b1 = Integer.parseInt(z.split(" ")[1]);
+            } catch (NumberFormatException e) {
+            }
 
+
+            if (a.length > i) {
+                a[i] = a1;
+            }
+            if (b.length > i) {
+                b[i] = b1;
+            }
+        }
         int[] result;
         result = merge(a, b);
 
         System.out.println();
         Arrays.sort(result);
-        System.out.println(Arrays.toString(result));
         int count2 = 0;
         int sum = 0;
         for (int h = 0; h < result.length; h++) {
-            if (sum <= s) {
+            if (sum < s) {
                 sum = sum + result[h];
                 count2++;
             }
         }
         if (sum > s) {
-            System.out.println(count2 - 1);
-        } else System.out.println(count2);
+            System.out.println("Вывод: " + "\n" + (count2 - 1));
+
+        } else System.out.println("Вывод:" + "\n" + count2);
 
     }
 
-    public static int[] merge(int a[], int b[]) {
+    private static int[] merge(int a[], int b[]) {
         int c[] = new int[a.length + b.length];
         int count = 0;
         for (int i = 0; i < a.length; i++) {
@@ -63,10 +73,11 @@ public class Test {
         return c;
     }
 
-    public static int check(int n, int m) {
+    private static int setCounter(int n, int m) {
         int c;
         if (n > m) c = n;
         else c = m;
         return c;
     }
 }
+
